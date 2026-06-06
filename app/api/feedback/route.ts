@@ -67,6 +67,18 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(parsed);
   } catch (err) {
     const message = err instanceof Error ? err.message : "알 수 없는 오류";
-    return NextResponse.json({ error: message }, { status: 500 });
+    if (message.includes("429") || message.includes("Too Many Requests") || message.includes("quota")) {
+      return NextResponse.json(
+        { error: "API 요청 한도를 초과했습니다. 잠시 후 다시 시도해주세요." },
+        { status: 429 }
+      );
+    }
+    if (message.includes("API_KEY") || message.includes("403") || message.includes("401")) {
+      return NextResponse.json(
+        { error: "API 키가 유효하지 않습니다. 관리자에게 문의하세요." },
+        { status: 500 }
+      );
+    }
+    return NextResponse.json({ error: "피드백을 가져오지 못했습니다. 잠시 후 다시 시도해주세요." }, { status: 500 });
   }
 }
