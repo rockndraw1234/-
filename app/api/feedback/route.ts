@@ -9,9 +9,10 @@ const SYSTEM_PROMPT = `당신은 유머러스한 글쓰기 코치입니다. 사�
 
 응답 규칙:
 - 반드시 JSON만 반환하세요. 마크다운 코드블록 없이 순수 JSON만.
-- 형식: {"worked": "한 문장", "upgrade": "업그레이드 버전 한두 문장"}
+- 형식: {"worked": "한 문장", "upgrade": "업그레이드 버전 한두 문장", "gag": "개그 한 줄"}
 - worked: 잘 작동한 점을 한 문장으로. 작동한 게 없으면 솔직하게 말하세요.
-- upgrade: 더 강력한 버전을 직접 써서 보여주세요. 설명 없이 문장만.`;
+- upgrade: 더 강력한 버전을 직접 써서 보여주세요. 설명 없이 문장만.
+- gag: 이 소재나 사용자의 문장에서 영감을 받아 코치 본인이 즉흥으로 치는 개그 한 줄. 짧고 엉뚱하게. 평가나 조언이 아니라 순수하게 웃기려는 시도여야 합니다.`;
 
 export async function POST(req: NextRequest) {
   const apiKey = process.env.GEMINI_API_KEY;
@@ -54,7 +55,7 @@ export async function POST(req: NextRequest) {
     // strip markdown code fences if present
     const cleaned = text.replace(/^```(?:json)?\n?/, "").replace(/\n?```$/, "");
 
-    let parsed: { worked: string; upgrade: string };
+    let parsed: { worked: string; upgrade: string; gag: string };
     try {
       parsed = JSON.parse(cleaned);
     } catch {

@@ -8,6 +8,7 @@ type WritingType = "과장" | "은유";
 interface Feedback {
   worked: string;
   upgrade: string;
+  gag: string;
 }
 
 const TYPE_DESCRIPTIONS: Record<WritingType, string> = {
@@ -73,6 +74,19 @@ export default function Home() {
           </h1>
           <p className="text-sm text-stone-400 mt-1">
             과장 또는 은유로 유머러스한 문장을 써보세요
+          </p>
+        </div>
+
+        {/* Intro */}
+        <div className="bg-amber-50 border border-amber-200 rounded-2xl px-5 py-4 text-sm text-stone-600 leading-relaxed">
+          <p className="font-semibold text-stone-700 mb-1.5">이런 앱이에요</p>
+          <p>
+            일상 소재가 하나 주어집니다. <strong>과장법</strong> 또는{" "}
+            <strong>은유법</strong>을 골라 유머러스한 한두 문장을 써보세요.
+            AI가 뭐가 잘 됐는지, 더 강하게 쓰면 어떻게 되는지 피드백을 줍니다.
+          </p>
+          <p className="mt-2 text-stone-400 text-xs">
+            매번 다른 소재 · 점수 없음 · 글쓰기 감각을 키우는 데 집중
           </p>
         </div>
 
@@ -198,6 +212,16 @@ export default function Home() {
                 {feedback.upgrade}
               </p>
             </div>
+            {feedback.gag && (
+              <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5">
+                <p className="text-xs font-semibold text-amber-500 uppercase tracking-widest mb-2">
+                  코치의 한 마디
+                </p>
+                <p className="text-stone-700 text-sm leading-relaxed italic">
+                  {feedback.gag}
+                </p>
+              </div>
+            )}
           </div>
         )}
 
